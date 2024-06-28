@@ -1,11 +1,11 @@
 #include "Shader.h"
 
 Shader::Shader() {
-
+	shaderID = 0;
 }
 
 Shader::~Shader() {
-
+	deleteShader();
 }
 
 std::string Shader::readShaderFromFile(const char* fileLoc) {
@@ -64,6 +64,7 @@ void Shader::createShader(GLuint program, const char* source, GLenum type) {
 	}
 
 	//attach to main program
+	shaderIDList.push_back(shader);
 	glAttachShader(program, shader);
 }
 
@@ -103,5 +104,26 @@ void Shader::compileShader() {
 		glGetProgramInfoLog(shaderID, sizeof(errorLog), NULL, errorLog);
 		printf("Shader Compilation Error: %s", errorLog);
 		return;
+	}
+}
+
+void Shader::useShader() {
+	glUseProgram(shaderID);
+}
+
+void Shader::deleteShader() {
+	//delete individual shaders
+	if (!shaderIDList.empty()) {
+		for (size_t i = 0; i < shaderIDList.size(); i++) {
+			glDeleteShader(shaderIDList[i]);
+		}
+		shaderIDList.clear();
+		shaderCodeList.clear();
+	}
+
+	//delete the shader program
+	if (shaderID != 0) {
+		glDeleteProgram(shaderID);
+		shaderID = 0;
 	}
 }

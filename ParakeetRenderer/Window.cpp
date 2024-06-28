@@ -64,9 +64,14 @@ void Window::initialize(){
 		return;
 	}
 
+	if (!GLEW_VERSION_3_0) {
+		printf("Failed 3.3 test");
+	}
+
 	glEnable(GL_DEPTH_TEST);
 
 	glViewport(0, 0, bufferWidth, bufferHeight);
+	printf("GL VERSION: %s\n", glGetString(GL_VERSION));
 }
 
 void Window::swapBuffers() {
