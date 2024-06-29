@@ -3,6 +3,10 @@
 #include "GL/glew.h"
 #include "Mesh.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class Material
 {
 public:
@@ -16,7 +20,7 @@ public:
 	//rendering functions
 	void activateMaterial();
 	void addMesh(Mesh* mesh);
-	void renderMeshes();
+	void renderMeshes(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
 
 private:
 	//material properties

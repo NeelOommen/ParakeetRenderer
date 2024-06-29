@@ -2,6 +2,9 @@
 
 Shader::Shader() {
 	shaderID = 0;
+	modelLocation = 0;
+	viewLocation = 0;
+	projectionLocation = 0;
 }
 
 Shader::~Shader() {
@@ -22,6 +25,8 @@ std::string Shader::readShaderFromFile(const char* fileLoc) {
 		std::getline(input, line);
 		source.append(line + '\n');
 	}
+
+	//std::cout << source << "\n\n\n\n\n";
 
 	return source;
 }
@@ -68,13 +73,22 @@ void Shader::createShader(GLuint program, const char* source, GLenum type) {
 	glAttachShader(program, shader);
 }
 
+void Shader::getUniformLocations() {
+	//get the 3 main matrices
+	modelLocation = glGetUniformLocation(shaderID, "model");
+	viewLocation = glGetUniformLocation(shaderID, "view");
+	projectionLocation = glGetUniformLocation(shaderID, "projection");
+
+	printf("%d", projectionLocation);
+}
+
 void Shader::compileShader() {
 	if (shaderCodeList.size() <= 0) {
 		printf("No Shaders to compile");
 		return;
 	}
-
-	GLuint shaderID = glCreateProgram();
+	printf("Compiling Shader...\n");
+	shaderID = glCreateProgram();
 
 	for (size_t i = 0; i < shaderCodeList.size(); i++) {
 		const char* source = shaderCodeList[i].first.c_str();
@@ -105,6 +119,11 @@ void Shader::compileShader() {
 		printf("Shader Compilation Error: %s", errorLog);
 		return;
 	}
+
+	//get all the uniform locations
+	getUniformLocations();
+
+	printf("Compilation Successful\n");
 }
 
 void Shader::useShader() {
@@ -126,4 +145,26 @@ void Shader::deleteShader() {
 		glDeleteProgram(shaderID);
 		shaderID = 0;
 	}
+
+	modelLocation = 0;
+	viewLocation = 0;
+	projectionLocation = 0;
+}
+
+//
+//
+//getter functions
+//
+//
+
+GLuint Shader::getModelLocation() {
+	return modelLocation;
+}
+
+GLuint Shader::getViewLocation() {
+	return viewLocation;
+}
+
+GLuint Shader::getProjectionLocation() {
+	return projectionLocation;
 }

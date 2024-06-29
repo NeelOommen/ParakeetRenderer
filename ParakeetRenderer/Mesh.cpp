@@ -11,8 +11,9 @@ Mesh::~Mesh() {
 	clearMesh();
 }
 
-void Mesh::createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int* indices, unsigned int indexCnt) {
+void Mesh::createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int* indices, unsigned int indexCnt, Model* belongToModel) {
 	indexCount = indexCnt;
+	model = belongToModel;
 
 	//create and bind vao
 	glGenVertexArrays(1, &vao);
@@ -53,7 +54,8 @@ void Mesh::createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int* i
 	glBindVertexArray(0);
 }
 
-void Mesh::renderMesh() {
+void Mesh::renderMesh(GLuint modelLocation) {
+	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model->getModelMatrix()));
 	//bind vao
 	glBindVertexArray(vao);
 

@@ -71,7 +71,7 @@ void Window::initialize(){
 	glEnable(GL_DEPTH_TEST);
 
 	glViewport(0, 0, bufferWidth, bufferHeight);
-	printf("GL VERSION: %s\n", glGetString(GL_VERSION));
+	printf("\nGL VERSION: %s\n", glGetString(GL_VERSION));
 }
 
 void Window::swapBuffers() {

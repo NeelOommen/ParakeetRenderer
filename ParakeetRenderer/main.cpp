@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include "Renderer.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 GLfloat testMesh[] = {
 	//		x		y		z		u		v		nX		nY		nZ	
@@ -28,7 +31,9 @@ int main() {
 	mat->addShaderStep("Shaders/fragment.shader", GL_FRAGMENT_SHADER);
 
 	//create mesh
-	engine.createMesh(testMesh, 4 * 8, testIndices, 4 * 3, mat);
+	Model* pyramid = engine.createModel();
+	engine.createMesh(testMesh, 4 * 8, testIndices, 4 * 3, mat, pyramid);
+	pyramid->moveTo(0.0f, 0.0f, -5.0f);
 
 
 	//start rendering
