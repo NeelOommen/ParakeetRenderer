@@ -36,10 +36,6 @@ void Renderer::renderByMaterial() {
 }
 
 void Renderer::update() {
-	//render meshes by materials
-	renderByMaterial();
-
-	//swap buffers
 	window->swapBuffers();
 }
 
@@ -83,4 +79,8 @@ Model* Renderer::createModel() {
 	models.push_back(newModel);
 
 	return newModel;
+}
+
+GLFWwindow* Renderer::getWin() {
+	return window->getWindow();
 }

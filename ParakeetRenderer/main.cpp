@@ -1,16 +1,15 @@
-#include <iostream>
+#include <stdio.h>
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include "Renderer.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
-GLfloat testMesh[] = {
-	//		x		y		z		u		v		nX		nY		nZ	
-			-1.0f,	-1.0f,	-0.6f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,
-			0.0f,	-1.0f,	1.0f,	0.5f,	0.0f,	0.0f,	0.0f,	0.0f,
-			1.0f,	-1.0f,	-0.6f,	1.0f,	0.0f,	0.0f,	0.0f,	0.0f,
-			0.0f,	1.0f,	0.0f,	0.5f,	1.0f,	0.0f,	0.0f,	0.0f 
+GLfloat verts[] = {
+	//		x		y		z		
+			-1.0f,	-1.0f,	0.0f,
+			1.0f,	-1.0f,	0.0f,
+			0.0f,	1.0f,	0.0f
 };
 
 unsigned int testIndices[] = {
@@ -24,21 +23,29 @@ int main() {
 	Renderer engine;
 	engine.setup();
 
-	//setup
-	Material* mat = engine.addNewMaterial();
-	//setup material shader
-	mat->addShaderStep("Shaders/vertex.shader", GL_VERTEX_SHADER);
-	mat->addShaderStep("Shaders/fragment.shader", GL_FRAGMENT_SHADER);
+	Shader shader;
+	shader.addShader("Shaders/vertex.shader", GL_VERTEX_SHADER);
+	shader.addShader("Shaders/fragment.shader", GL_FRAGMENT_SHADER);
+	shader.compileShader();
 
-	//create mesh
-	Model* pyramid = engine.createModel();
-	engine.createMesh(testMesh, 4 * 8, testIndices, 4 * 3, mat, pyramid);
-	pyramid->moveTo(0.0f, 0.0f, -5.0f);
+	Mesh mesh;
+	mesh.createMesh(verts, 9, testIndices, 12, nullptr);
 
+	GLFWwindow* w = engine.getWin();
 
-	//start rendering
-	engine.start();
+	glViewport(0, 0, 800, 600);
+
 	while (!engine.shouldCloseProgram()) {
+		glfwPollEvents();
+
+		//clear screen
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		shader.useShader();
+
+		mesh.renderMesh(1);
+
 		engine.update();
 	}
 

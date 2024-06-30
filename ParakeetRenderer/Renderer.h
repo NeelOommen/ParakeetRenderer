@@ -27,6 +27,8 @@ public:
 
 	bool shouldCloseProgram();
 
+	GLFWwindow* getWin();
+
 	//data modification
 	Material* addNewMaterial();
 	void prepareShaders();

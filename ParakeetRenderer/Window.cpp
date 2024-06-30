@@ -40,16 +40,19 @@ void Window::initialize(){
 	//set window properties
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR , 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR , 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-	window = glfwCreateWindow(m_width, m_height, windowName.c_str(), NULL, NULL);
+	GLFWwindow* newWindow = glfwCreateWindow(m_width, m_height, windowName.c_str(), NULL, NULL);
 
-	if (!window) {
+	if (!newWindow) {
 		printf("Failed to create a window");
 		glfwTerminate();
 		return;
 	}
+
+	window = newWindow;
 
 	glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
 
@@ -59,7 +62,7 @@ void Window::initialize(){
 
 	if (glewInit() != GLEW_OK) {
 		printf("Failed to initialize GLEW");
-		glfwDestroyWindow(window);
+		glfwDestroyWindow(newWindow);
 		glfwTerminate();
 		return;
 	}
@@ -68,7 +71,7 @@ void Window::initialize(){
 		printf("Failed 3.3 test");
 	}
 
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 
 	glViewport(0, 0, bufferWidth, bufferHeight);
 	printf("\nGL VERSION: %s\n", glGetString(GL_VERSION));
@@ -88,4 +91,8 @@ GLint Window::getBufferWidth() {
 
 GLint Window::getBufferHeight() {
 	return bufferHeight;
+}
+
+GLFWwindow* Window::getWindow() {
+	return window;
 }

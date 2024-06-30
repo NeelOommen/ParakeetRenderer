@@ -28,9 +28,9 @@ void Material::addMesh(Mesh* mesh) {
 void Material::renderMeshes(glm::mat4 projectionMatrix, glm::mat4 viewMatrix) {
 	activateMaterial();
 	//set projection matrix
-	glUniformMatrix4fv(shader->getProjectionLocation(), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+	//glUniformMatrix4fv(shader->getProjectionLocation(), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 	//set view matrix
-	glUniformMatrix4fv(shader->getViewLocation(), 1, GL_FALSE, glm::value_ptr(viewMatrix));
+	//glUniformMatrix4fv(shader->getViewLocation(), 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
 	if (!meshes.empty()) {
 		for (size_t i = 0; i < meshes.size(); i++) {

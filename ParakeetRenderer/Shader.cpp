@@ -59,7 +59,7 @@ void Shader::createShader(GLuint program, const char* source, GLenum type) {
 
 	//error check
 	GLint result = 0;
-	GLchar log[1024];
+	GLchar log[1024] = { 0 };
 
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
 	if (!result) {
@@ -79,7 +79,7 @@ void Shader::getUniformLocations() {
 	viewLocation = glGetUniformLocation(shaderID, "view");
 	projectionLocation = glGetUniformLocation(shaderID, "projection");
 
-	printf("%d", projectionLocation);
+	printf("%d\n%d\n%d\n", modelLocation, viewLocation, projectionLocation);
 }
 
 void Shader::compileShader() {
@@ -105,8 +105,11 @@ void Shader::compileShader() {
 	glGetProgramiv(shaderID, GL_LINK_STATUS, &result);
 	if (!result) {
 		glGetProgramInfoLog(shaderID, sizeof(errorLog), NULL, errorLog);
-		printf("Shader Compilation Error : % s", errorLog);
+		printf("Shader Compilation Error : %s", errorLog);
 		return;
+	}
+	else {
+		printf("Shader Linked\n");
 	}
 
 	//validate
@@ -119,11 +122,14 @@ void Shader::compileShader() {
 		printf("Shader Compilation Error: %s", errorLog);
 		return;
 	}
+	else {
+		printf("Shader Validated\n");
+	}
 
 	//get all the uniform locations
-	getUniformLocations();
+	//getUniformLocations();
 
-	printf("Compilation Successful\n");
+	//printf("Compilation Successful\n");
 }
 
 void Shader::useShader() {

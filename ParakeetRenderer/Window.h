@@ -20,6 +20,8 @@ public:
 
 	GLint getBufferWidth();
 	GLint getBufferHeight();
+
+	GLFWwindow* getWindow();
 private:
 	GLFWwindow* window;
 
