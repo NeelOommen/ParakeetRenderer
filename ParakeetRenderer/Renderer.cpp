@@ -36,12 +36,22 @@ void Renderer::renderByMaterial() {
 }
 
 void Renderer::update() {
+	glfwPollEvents();
+
+	//clear screen
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	renderByMaterial();
+
 	window->swapBuffers();
 }
 
 void Renderer::start() {
 	printf("Compiling Shaders\n");
 	prepareShaders();
+
+	glViewport(0, 0, 800, 600);
 }
 
 Material* Renderer::addNewMaterial() {
@@ -58,11 +68,11 @@ void Renderer::prepareShaders() {
 	}
 }
 
-void Renderer::createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int* indices, unsigned int indexCnt, Material* mat, Model* model) {
+void Renderer::createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int vertexSize, unsigned int* indices, unsigned int indexCnt, Material* mat, Model* model) {
 	Mesh* newMesh = new Mesh();
 
 	//create the mesh
-	newMesh->createMesh(vertices, vertexCnt, indices, indexCnt, model);
+	newMesh->createMesh(vertices, vertexCnt, vertexSize, indices, indexCnt, model);
 
 	//assign the mesh to the material
 	mat->addMesh(newMesh);

@@ -71,7 +71,7 @@ void Window::initialize(){
 		printf("Failed 3.3 test");
 	}
 
-	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 
 	glViewport(0, 0, bufferWidth, bufferHeight);
 	printf("\nGL VERSION: %s\n", glGetString(GL_VERSION));

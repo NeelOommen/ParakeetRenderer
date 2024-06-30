@@ -127,7 +127,7 @@ void Shader::compileShader() {
 	}
 
 	//get all the uniform locations
-	//getUniformLocations();
+	getUniformLocations();
 
 	//printf("Compilation Successful\n");
 }

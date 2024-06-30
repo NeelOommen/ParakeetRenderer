@@ -5,12 +5,21 @@
 
 #include "Renderer.h"
 
-GLfloat verts[] = {
-	//		x		y		z		
-			-1.0f,	-1.0f,	0.0f,
-			1.0f,	-1.0f,	0.0f,
-			0.0f,	1.0f,	0.0f
+GLfloat testMesh[] = {
+	//		x		y		z		u		v		nX		nY		nZ		r		g		b
+			-1.0f,	-1.0f,	-0.6f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	1.0f,	0.0f,	0.0f,
+			0.0f,	-1.0f,	1.0f,	0.5f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	1.0f,	0.0f,
+			1.0f,	-1.0f,	-0.6f,	1.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	1.0f,
+			0.0f,	1.0f,	0.0f,	0.5f,	1.0f,	0.0f,	0.0f,	0.0f,	1.0f,	0.0f,   1.0f
 };
+
+/*testMesh[] = {
+	//		x		y		z		r		g		b
+			-1.0f,	-1.0f,	-0.6f,	1.0f,	0.0f,	0.0f,
+			0.0f,	-1.0f,	1.0f,	0.0f,	1.0f,	0.0f,
+			1.0f,	-1.0f,	-0.6f,	0.0f,	0.0f,	1.0f,
+			0.0f,	1.0f,	0.0f,	1.0f,	0.0f,   1.0f
+};*/
 
 unsigned int testIndices[] = {
 		0, 3, 1,
@@ -23,30 +32,20 @@ int main() {
 	Renderer engine;
 	engine.setup();
 
-	Shader shader;
-	shader.addShader("Shaders/vertex.shader", GL_VERTEX_SHADER);
-	shader.addShader("Shaders/fragment.shader", GL_FRAGMENT_SHADER);
-	shader.compileShader();
+	Material* mat = engine.addNewMaterial();
+	mat->addShaderStep("Shaders/vertex.shader", GL_VERTEX_SHADER);
+	mat->addShaderStep("Shaders/fragment.shader", GL_FRAGMENT_SHADER);
 
-	Mesh mesh;
-	mesh.createMesh(verts, 9, testIndices, 12, nullptr);
+	Model* pyramid = engine.createModel();
+	engine.createMesh(testMesh, 4 * 11, 11, testIndices, 4*3, mat, pyramid);
+	pyramid->moveTo(0.0f, 0.0f, -10.0f);
+	pyramid->rotateBy(15, glm::vec3(0.0, 1.0f, 0.0f));
 
-	GLFWwindow* w = engine.getWin();
-
-	glViewport(0, 0, 800, 600);
-
+	engine.start();
 	while (!engine.shouldCloseProgram()) {
-		glfwPollEvents();
-
-		//clear screen
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		shader.useShader();
-
-		mesh.renderMesh(1);
-
+		
 		engine.update();
+
 	}
 
 	return 0;

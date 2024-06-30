@@ -16,7 +16,7 @@ public:
 	Mesh();
 	~Mesh();
 
-	void createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int* indices, unsigned int indexCnt, Model* belongToModel);
+	void createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int vertexSize, unsigned int* indices, unsigned int indexCnt, Model* belongToModel);
 	void renderMesh(GLuint modelLocation);
 	void clearMesh();
 

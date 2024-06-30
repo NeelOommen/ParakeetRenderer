@@ -19,3 +19,7 @@ glm::mat4 Model::getModelMatrix() {
 void Model::moveTo(float x, float y, float z) {
 	modelMatrix = glm::translate(modelMatrix, glm::vec3(x, y, z));
 }
+
+void Model::rotateBy(float degrees, glm::vec3 axisOfRotation) {
+	modelMatrix = glm::rotate(modelMatrix, degrees * toRadians, axisOfRotation);
+}

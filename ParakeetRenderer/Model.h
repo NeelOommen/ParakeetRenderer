@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Mesh.h"
+#include "CommonValues.h"
 
 class Mesh;
 
@@ -20,6 +21,7 @@ public:
 	void addMesh(Mesh* newMesh);
 
 	void moveTo(float x, float y, float z);
+	void rotateBy(float degrees, glm::vec3 axisOfRotation);
 
 private:
 	std::vector<Mesh*> meshes;

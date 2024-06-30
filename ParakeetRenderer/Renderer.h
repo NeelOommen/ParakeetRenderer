@@ -34,7 +34,7 @@ public:
 	void prepareShaders();
 
 	Model* createModel();
-	void createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int* indices, unsigned int indexCnt, Material* mat, Model* model);
+	void createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int vertexSize, unsigned int* indices, unsigned int indexCnt, Material* mat, Model* model);
 
 	//rendering functions
 	void start();
