@@ -21,3 +21,7 @@ Camera::~Camera() {
 glm::mat4 Camera::getViewMatrix() {
 	return glm::lookAt(position, position + front, up);
 }
+
+void Camera::moveCameraBy(float x, float y, float z) {
+	position += glm::vec3(x,y,z);
+}

@@ -78,8 +78,6 @@ void Shader::getUniformLocations() {
 	modelLocation = glGetUniformLocation(shaderID, "model");
 	viewLocation = glGetUniformLocation(shaderID, "view");
 	projectionLocation = glGetUniformLocation(shaderID, "projection");
-
-	printf("%d\n%d\n%d\n", modelLocation, viewLocation, projectionLocation);
 }
 
 void Shader::compileShader() {

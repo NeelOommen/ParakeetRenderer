@@ -11,6 +11,8 @@ public:
 	Camera(glm::vec3 _position, glm::vec3 _up);
 	~Camera();
 
+	void moveCameraBy(float x, float y, float z);
+
 	glm::mat4 getViewMatrix();
 private:
 	glm::vec3 position;

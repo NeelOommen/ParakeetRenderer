@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include "GL/glew.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -16,6 +17,7 @@ public:
 	//setup functions
 	void addShaderStep(const char* fileLoc, GLenum shaderType);
 	void prepareShader();
+	void addDiffuseTexture(const char* textureFileLocation);
 
 	//rendering functions
 	void activateMaterial();
@@ -29,6 +31,7 @@ private:
 	Shader* shader;
 
 	//texture
+	Texture* diffuseTexture;
 
 	//mesh list (for batching?)
 	std::vector<Mesh*> meshes;

@@ -1,6 +1,4 @@
 #pragma once
-#define STB_IMAGE_IMPLEMENTATION
-
 #include <string>
 
 #include "GL/glew.h"
@@ -11,6 +9,7 @@
 #include "Mesh.h"
 #include "Model.h"
 #include "Camera.h"
+#include "Texture.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

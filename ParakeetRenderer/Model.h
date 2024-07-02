@@ -22,6 +22,7 @@ public:
 
 	void moveTo(float x, float y, float z);
 	void rotateBy(float degrees, glm::vec3 axisOfRotation);
+	void scaleBy(float scale);
 
 private:
 	std::vector<Mesh*> meshes;

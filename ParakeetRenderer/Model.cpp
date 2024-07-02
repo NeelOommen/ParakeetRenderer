@@ -23,3 +23,7 @@ void Model::moveTo(float x, float y, float z) {
 void Model::rotateBy(float degrees, glm::vec3 axisOfRotation) {
 	modelMatrix = glm::rotate(modelMatrix, degrees * toRadians, axisOfRotation);
 }
+
+void Model::scaleBy(float scale) {
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(scale, scale, scale));
+}

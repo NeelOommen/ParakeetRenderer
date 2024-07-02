@@ -11,6 +11,7 @@ Material::~Material() {
 
 void Material::activateMaterial() {
 	shader->useShader();
+	diffuseTexture->useTexture(GL_TEXTURE0);
 }
 
 void Material::addShaderStep(const char* fileLocation, GLenum shaderType) {
@@ -37,4 +38,11 @@ void Material::renderMeshes(glm::mat4 projectionMatrix, glm::mat4 viewMatrix) {
 			meshes[i]->renderMesh(shader->getModelLocation());
 		}
 	}
+}
+
+void Material::addDiffuseTexture(const char* diffuseTextureLocation) {
+	Texture* newTexture = new Texture(diffuseTextureLocation);
+	diffuseTexture = newTexture;
+
+	diffuseTexture->loadTexture();
 }

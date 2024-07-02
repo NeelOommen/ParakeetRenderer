@@ -5,8 +5,8 @@ layout (location = 1) in vec2 textureCoordinate;
 layout (location = 2) in vec3 norm;
 layout (location = 3) in vec3 col;
 
-out vec4 vCol;
-// out vec2 textureCoord;
+//out vec4 vCol;
+out vec2 textureCoord;
 // out vec3 normalVector;
 // out vec3 fragPos;
 
@@ -18,5 +18,5 @@ void main(){
     gl_Position = projection * view  *model * vec4(position, 1.0f);
     //gl_Position = vec4(position.x * 0.4, position.y * 0.4, position.z, 1.0f);
 
-    vCol = vec4(col, 1.0f);
+    textureCoord = textureCoordinate;
 }
