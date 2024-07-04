@@ -2,9 +2,6 @@
 
 Shader::Shader() {
 	shaderID = 0;
-	modelLocation = 0;
-	viewLocation = 0;
-	projectionLocation = 0;
 }
 
 Shader::~Shader() {
@@ -25,8 +22,6 @@ std::string Shader::readShaderFromFile(const char* fileLoc) {
 		std::getline(input, line);
 		source.append(line + '\n');
 	}
-
-	//std::cout << source << "\n\n\n\n\n";
 
 	return source;
 }
@@ -74,10 +69,23 @@ void Shader::createShader(GLuint program, const char* source, GLenum type) {
 }
 
 void Shader::getUniformLocations() {
-	//get the 3 main matrices
-	modelLocation = glGetUniformLocation(shaderID, "model");
-	viewLocation = glGetUniformLocation(shaderID, "view");
-	projectionLocation = glGetUniformLocation(shaderID, "projection");
+	GLint numUniforms;
+	glGetProgramiv(shaderID, GL_ACTIVE_UNIFORMS, &numUniforms);
+	//printf("Num Uniforms: %d\n", numUniforms);
+	for (size_t i = 0; i < numUniforms; i++) {
+		char uniformName[100];
+		int nameLength;
+		GLint size;
+		GLenum uniformType;
+		glGetActiveUniform(shaderID, GLuint(i), sizeof(uniformName) - 1, &nameLength, &size, &uniformType, uniformName);
+		GLuint loc = glGetUniformLocation(shaderID, uniformName);
+
+		//put it in the vector and the map
+		uniformNames.push_back(std::string(uniformName));
+		uniformMap[std::string(uniformName)] = loc;
+		
+		//printf("\nUniform Information:\nLength of Name: %d\nSize: %d\nUniform Type: %d\nUniform Name: %s\nUniform Location: %d\nName Size: %d\n", nameLength, size, uniformType, uniformName, loc, strlen(uniformName));
+	}
 }
 
 void Shader::compileShader() {
@@ -126,8 +134,6 @@ void Shader::compileShader() {
 
 	//get all the uniform locations
 	getUniformLocations();
-
-	//printf("Compilation Successful\n");
 }
 
 void Shader::useShader() {
@@ -150,9 +156,10 @@ void Shader::deleteShader() {
 		shaderID = 0;
 	}
 
-	modelLocation = 0;
+	/*modelLocation = 0;
 	viewLocation = 0;
 	projectionLocation = 0;
+	*/
 }
 
 //
@@ -161,6 +168,7 @@ void Shader::deleteShader() {
 //
 //
 
+/*
 GLuint Shader::getModelLocation() {
 	return modelLocation;
 }
@@ -171,4 +179,9 @@ GLuint Shader::getViewLocation() {
 
 GLuint Shader::getProjectionLocation() {
 	return projectionLocation;
+}
+*/
+
+GLuint Shader::getShaderUniformLocation(std::string uniformName) {
+	return uniformMap[uniformName];
 }

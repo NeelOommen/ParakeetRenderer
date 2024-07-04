@@ -3,11 +3,15 @@
 Renderer::Renderer() {
 	window = new Window();
 	camera = new Camera();
+
+	directionalLightCount = 0;
 }
 
 Renderer::Renderer(GLint width, GLint height, std::string wName, glm::vec3 cameraPosition, glm::vec3 cameraUp) {
 	window = new Window(width, height, wName);
 	camera = new Camera(cameraPosition, cameraUp);
+
+	directionalLightCount = 0;
 }
 
 Renderer::~Renderer() {
@@ -30,7 +34,7 @@ void Renderer::renderByMaterial() {
 	glm::mat4 view = camera->getViewMatrix();
 	if (!materials.empty()) {
 		for (size_t i = 0; i < materials.size(); i++) {
-			materials[i]->renderMeshes(projectionMatrix, view);
+			materials[i]->renderMeshes(projectionMatrix, view, directionalLights, camera->getCameraPosition());
 		}
 	}
 }
@@ -82,6 +86,13 @@ void Renderer::createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned in
 
 	//attach to the relevant model
 	model->addMesh(newMesh);
+}
+
+void Renderer::createDirectionalLight(GLfloat r, GLfloat g, GLfloat b, GLfloat aIntensity, GLfloat dIntensity, GLfloat xDir, GLfloat yDir, GLfloat zDir){
+	DirectionalLight* newDirectionalLight = new DirectionalLight(r, g, b, aIntensity, dIntensity, xDir, yDir, zDir);
+
+	directionalLights.push_back(newDirectionalLight);
+	directionalLightCount++;
 }
 
 Model* Renderer::createModel() {

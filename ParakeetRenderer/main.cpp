@@ -71,10 +71,10 @@ unsigned int cubeIndices[] = {
 };
 
 GLfloat floorMesh[] = {
-	-1.0f,	0.0f,	-1.0f,	0.0f,	0.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	1.0f,
-	-1.0f,	0.0f,	1.0f,	0.0f,	1.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	1.0f,
-	1.0f,	0.0f,	-1.0f,	1.0f,	0.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	0.0f,
-	1.0f,	0.0f,	1.0f,	1.0f,	1.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	1.0f
+	-10.0f,	0.0f,	-10.0f,	0.0f,	0.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	1.0f,
+	-10.0f,	0.0f,	10.0f,	0.0f,	10.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	1.0f,
+	10.0f,	0.0f,	-10.0f,	10.0f,	0.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	0.0f,
+	10.0f,	0.0f,	10.0f,	10.0f,	10.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	1.0f
 };
 
 unsigned int floorIndices[] = {
@@ -90,6 +90,7 @@ int main() {
 	brickMat->addDiffuseTexture("Assets/Textures/brick_wall_001_diffuse_4k.jpg");
 	brickMat->addShaderStep("Shaders/vertex.shader", GL_VERTEX_SHADER);
 	brickMat->addShaderStep("Shaders/fragment.shader", GL_FRAGMENT_SHADER);
+	brickMat->setMaterialProperties(2.0f, 8);
 
 	Material* floorMat = engine.addNewMaterial();
 	floorMat->addDiffuseTexture("Assets/Textures/dirt.png");
@@ -103,7 +104,10 @@ int main() {
 	Model* floor = engine.createModel();
 	engine.createMesh(floorMesh, 4*11, 11, floorIndices, 2*3, floorMat, floor);
 	floor->moveTo(0.0f, -2.0f, -5.0f);
-	floor->scaleBy(10);
+	floor->scaleBy(2);
+
+	//create ambient Light
+	engine.createDirectionalLight(1.0f, 0.0f, 1.0f, 0.3f, 1.0f, -1.0f, 0.0f, 0.0f);
 	
 	int factor = 1;
 

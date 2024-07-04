@@ -10,6 +10,15 @@
 #include "Model.h"
 #include "Camera.h"
 #include "Texture.h"
+#include "DirectionalLight.h"
+
+class Window;
+class Material;
+class Mesh;
+class Model;
+class Camera;
+class Texture;
+class DirectionalLight;
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -35,6 +44,10 @@ public:
 	Model* createModel();
 	void createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int vertexSize, unsigned int* indices, unsigned int indexCnt, Material* mat, Model* model);
 
+	void createDirectionalLight(GLfloat r, GLfloat g, GLfloat b,
+		GLfloat aIntensity, GLfloat dIntensity,
+		GLfloat xDir, GLfloat yDir, GLfloat zDir);
+
 	//rendering functions
 	void start();
 	void update();
@@ -54,6 +67,10 @@ private:
 
 	//overall projectionMatrix
 	glm::mat4 projectionMatrix;
+
+	//lights
+	std::vector<DirectionalLight*> directionalLights;
+	unsigned int directionalLightCount;
 
 	//rendering methods
 	void renderByMaterial();

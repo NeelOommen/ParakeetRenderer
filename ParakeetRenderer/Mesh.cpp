@@ -39,8 +39,6 @@ void Mesh::createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int ve
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
-	printf("%d, %d, %d\n", vao, ibo, vbo);
 }
 
 void Mesh::renderMesh(GLuint modelLocation) {

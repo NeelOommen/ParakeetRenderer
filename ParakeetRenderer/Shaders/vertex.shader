@@ -7,8 +7,8 @@ layout (location = 3) in vec3 col;
 
 //out vec4 vCol;
 out vec2 textureCoord;
-// out vec3 normalVector;
-// out vec3 fragPos;
+out vec3 normalVector;
+out vec3 fragPos;
 
 uniform mat4 model;
 uniform mat4 projection;
@@ -19,4 +19,6 @@ void main(){
     //gl_Position = vec4(position.x * 0.4, position.y * 0.4, position.z, 1.0f);
 
     textureCoord = textureCoordinate;
+    normalVector = mat3(transpose(inverse(model))) * norm;
+    fragPos = (model * vec4(position, 1.0)).xyz;
 }

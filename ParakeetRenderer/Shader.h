@@ -1,3 +1,5 @@
+#ifndef SHADER_H
+#define SHADER_H
 #pragma 
 #include "GL/glew.h"
 #include <vector>
@@ -5,6 +7,8 @@
 #include <fstream>
 #include <stdio.h>
 #include <iostream>
+#include <unordered_map>
+
 
 class Shader
 {
@@ -19,15 +23,17 @@ public:
 
 	//rendering functions
 	void useShader();
-	GLuint getModelLocation();
-	GLuint getViewLocation();
-	GLuint getProjectionLocation();
+	//GLuint getModelLocation();
+	//GLuint getViewLocation();
+	//GLuint getProjectionLocation();
+
+	GLuint getShaderUniformLocation(std::string uniformName);
 
 private:
 	GLuint shaderID;
 
 	//uniforms
-	GLuint modelLocation, viewLocation, projectionLocation;
+	//GLuint modelLocation, viewLocation, projectionLocation;
 
 	//shader creation stuff
 	std::vector<std::pair<std::string, GLenum>> shaderCodeList;
@@ -37,5 +43,8 @@ private:
 
 	//for management
 	std::vector<GLuint> shaderIDList;
+	std::vector<std::string> uniformNames;
+	std::unordered_map<std::string, GLuint> uniformMap;
 };
 
+#endif
