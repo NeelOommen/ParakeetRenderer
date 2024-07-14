@@ -27,3 +27,12 @@ void Model::rotateBy(float degrees, glm::vec3 axisOfRotation) {
 void Model::scaleBy(float scale) {
 	modelMatrix = glm::scale(modelMatrix, glm::vec3(scale, scale, scale));
 }
+
+void Model::renderModel(Shader* shader) {
+	GLuint modelLocation = shader->getShaderUniformLocation("model");
+	if (!meshes.empty()) {
+		for (size_t i = 0; i < meshes.size(); i++) {
+			meshes[i]->renderMesh(modelLocation);
+		}
+	}
+}

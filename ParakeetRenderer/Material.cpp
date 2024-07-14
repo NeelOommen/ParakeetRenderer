@@ -38,6 +38,10 @@ void Material::renderMeshes(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, st
 	//set lights
 	for (size_t i = 0; i < dLights.size(); i++) {
 		dLights[i]->useLight(shader);
+		dLights[i]->getShadowMap()->read(GL_TEXTURE1);
+		glm::mat4 dLT = dLights[i]->calculateLightTransform();
+
+		glUniformMatrix4fv(shader->getShaderUniformLocation("directionalLightTransform"), 1, GL_FALSE, glm::value_ptr(dLT));
 	}
 
 	//set camera pos
@@ -47,6 +51,9 @@ void Material::renderMeshes(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, st
 	glUniformMatrix4fv(shader->getShaderUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 	//set view matrix
 	glUniformMatrix4fv(shader->getShaderUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
+
+	//debug shadow
+	glUniform1i(shader->getShaderUniformLocation("directionalShadowMap"), 1);
 
 	if (!meshes.empty()) {
 		for (size_t i = 0; i < meshes.size(); i++) {

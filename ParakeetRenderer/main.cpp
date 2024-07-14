@@ -107,7 +107,12 @@ int main() {
 	floor->scaleBy(2);
 
 	//create ambient Light
-	engine.createDirectionalLight(1.0f, 0.0f, 1.0f, 0.3f, 1.0f, -1.0f, 0.0f, 0.0f);
+	DirectionalLight* ambientLight =  engine.createDirectionalLight(1.0f, 0.0f, 1.0f, 0.3f, 1.0f, 0.0f, -1.0f, 0.0f,1024,1024);
+	Shader* ambientShader = ambientLight->getShadowMapShader();
+	ambientShader->addShader("Shaders/dShadowVert.shader", GL_VERTEX_SHADER);
+	ambientShader->addShader("Shaders/dShadowFrag.shader", GL_FRAGMENT_SHADER);
+	ambientShader->compileShader();
+
 	
 	int factor = 1;
 

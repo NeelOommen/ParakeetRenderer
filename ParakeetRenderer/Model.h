@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Mesh.h"
+#include "Shader.h"
 #include "CommonValues.h"
 
 class Mesh;
@@ -20,9 +21,13 @@ public:
 
 	void addMesh(Mesh* newMesh);
 
+	//movement
 	void moveTo(float x, float y, float z);
 	void rotateBy(float degrees, glm::vec3 axisOfRotation);
 	void scaleBy(float scale);
+
+	//render
+	void renderModel(Shader* shader);
 
 private:
 	std::vector<Mesh*> meshes;

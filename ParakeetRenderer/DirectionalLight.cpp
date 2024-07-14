@@ -4,15 +4,20 @@ DirectionalLight::DirectionalLight() {
     direction = glm::vec3(0.0f, -1.0f, 0.0f);
 
     lightProjection = glm::ortho(-5.0f, 5.0f, -5.0f, 5.0f, 0.1f, 20.0f);
+
+    shadowMapShader = new Shader();
 }
 
 DirectionalLight::DirectionalLight(GLfloat r, GLfloat g, GLfloat b,
     GLfloat aIntensity, GLfloat dIntensity,
-    GLfloat xDir, GLfloat yDir, GLfloat zDir) : Light(r,g,b,aIntensity,dIntensity)
+    GLfloat xDir, GLfloat yDir, GLfloat zDir,
+    GLint shadowWidth, GLint shadowHeight) : Light(r, g, b, aIntensity, dIntensity, shadowWidth, shadowHeight)
 {
     direction = glm::vec3(xDir, yDir, zDir);
 
     lightProjection = glm::ortho(-5.0f, 5.0f, -5.0f, 5.0f, 0.1f, 20.0f);
+
+    shadowMapShader = new Shader();
 }
 
 DirectionalLight::~DirectionalLight() {
@@ -29,4 +34,13 @@ void DirectionalLight::useLight(Shader* shader) {
 
     glUniform3f(shader->getShaderUniformLocation("ambientLight.direction"), direction.x, direction.y, direction.z);
     glUniform1f(shader->getShaderUniformLocation("ambientLight.base.diffuseIntensity"), diffuseIntensity);
+}
+
+Shader* DirectionalLight::getShadowMapShader()
+{
+    return shadowMapShader;
+}
+
+void DirectionalLight::activateShader() {
+    shadowMapShader->useShader();
 }

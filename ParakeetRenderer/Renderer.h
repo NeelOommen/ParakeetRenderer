@@ -44,9 +44,10 @@ public:
 	Model* createModel();
 	void createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned int vertexSize, unsigned int* indices, unsigned int indexCnt, Material* mat, Model* model);
 
-	void createDirectionalLight(GLfloat r, GLfloat g, GLfloat b,
+	DirectionalLight* createDirectionalLight(GLfloat r, GLfloat g, GLfloat b,
 		GLfloat aIntensity, GLfloat dIntensity,
-		GLfloat xDir, GLfloat yDir, GLfloat zDir);
+		GLfloat xDir, GLfloat yDir, GLfloat zDir,
+		GLint shadowWidth, GLint shadowHeight);
 
 	//rendering functions
 	void start();
@@ -74,5 +75,6 @@ private:
 
 	//rendering methods
 	void renderByMaterial();
+	void shadowPass();
 };
 

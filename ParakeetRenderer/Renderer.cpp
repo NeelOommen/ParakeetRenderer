@@ -31,11 +31,38 @@ void Renderer::setup() {
 }
 
 void Renderer::renderByMaterial() {
+	glViewport(0, 0, window->getBufferWidth(), window->getBufferHeight());
+
 	glm::mat4 view = camera->getViewMatrix();
+
 	if (!materials.empty()) {
 		for (size_t i = 0; i < materials.size(); i++) {
 			materials[i]->renderMeshes(projectionMatrix, view, directionalLights, camera->getCameraPosition());
 		}
+	}
+}
+
+void Renderer::shadowPass() {
+	for (size_t i = 0; i < directionalLightCount; i++) {
+		Shader* shader = directionalLights[i]->getShadowMapShader();
+		shader->useShader();
+
+		//set viewport
+		glViewport(0, 0, directionalLights[i]->getShadowMap()->getWidth(), directionalLights[i]->getShadowMap()->getHeight());
+		directionalLights[i]->getShadowMap()->write();
+		glClear(GL_DEPTH_BUFFER_BIT);
+
+		glm::mat4 lTransform = directionalLights[i]->calculateLightTransform();
+		glUniformMatrix4fv(shader->getShaderUniformLocation("lightTransform"), 1, GL_FALSE, glm::value_ptr(lTransform));
+
+		//render models
+		if (!models.empty()) {
+			for (size_t i = 0; i < models.size(); i++) {
+				models[i]->renderModel(shader);
+			}
+		}
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 }
 
@@ -46,6 +73,7 @@ void Renderer::update() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	shadowPass();
 	renderByMaterial();
 
 	window->swapBuffers();
@@ -88,11 +116,13 @@ void Renderer::createMesh(GLfloat* vertices, unsigned int vertexCnt, unsigned in
 	model->addMesh(newMesh);
 }
 
-void Renderer::createDirectionalLight(GLfloat r, GLfloat g, GLfloat b, GLfloat aIntensity, GLfloat dIntensity, GLfloat xDir, GLfloat yDir, GLfloat zDir){
-	DirectionalLight* newDirectionalLight = new DirectionalLight(r, g, b, aIntensity, dIntensity, xDir, yDir, zDir);
+DirectionalLight* Renderer::createDirectionalLight(GLfloat r, GLfloat g, GLfloat b, GLfloat aIntensity, GLfloat dIntensity, GLfloat xDir, GLfloat yDir, GLfloat zDir, GLint shadowWidth, GLint shadowHeight){
+	DirectionalLight* newDirectionalLight = new DirectionalLight(r, g, b, aIntensity, dIntensity, xDir, yDir, zDir, shadowWidth, shadowHeight);
 
 	directionalLights.push_back(newDirectionalLight);
 	directionalLightCount++;
+
+	return newDirectionalLight;
 }
 
 Model* Renderer::createModel() {
